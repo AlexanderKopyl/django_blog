@@ -56,3 +56,8 @@ def post_edit(request, pk):
     else:
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form': form})
+
+
+def sidebar(request):
+    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')[:3]
+    return render(request, 'common/sidebar.html', {'posts': posts})

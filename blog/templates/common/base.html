@@ -2,22 +2,27 @@
 <html>
 <head>
     <title>Django Girls blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset="utf-8"/>
+    <base href="/">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+    <!--[if lte IE 8]><script src="{% static 'js/ie/html5shiv.js' %}"></script><![endif]-->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}"/>
+    <!--[if lte IE 9]><link rel="stylesheet" href="{% static 'css/ie9.css' %}" /><![endif]-->
+    <!--[if lte IE 8]><link rel="stylesheet" href="{% static 'css/ie8.css' %}" /><![endif]-->
+    <!--<link rel="stylesheet" href="{% static 'css/blog.css' %}">-->
 </head>
 <body>
 
-<div class="page-header">
-    {% if user.is_authenticated %}
-    <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
-    {% endif %}
-    <h1><a href="/">Blog</a></h1>
-</div>
-<div class="content container">
-    {% block content %}
-    {% endblock %}
-</div>
+
+{% include "common/header.html" %}
+
+
+{% block content %}
+{% endblock %}
+
+{% include "common/footer.html" %}
 </body>
 </html>
