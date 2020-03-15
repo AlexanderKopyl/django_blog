@@ -3,26 +3,26 @@
 
 {% block content %}
     <div id="main">
-        {% for post in posts %}
+        {% for item, val in data.items %}
             <article class="post">
                 <header>
                     <div class="title">
-                        <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
-                        <p>{{ post.text|linebreaksbr|truncatechars:100 }}</p>
+                        <h2><a href="{% url 'post_detail' pk=val.post.pk %}">{{ val.post.title }}</a></h2>
+                        <p>{{ val.post.text|linebreaksbr|truncatechars:100 }}</p>
                     </div>
                     <div class="meta">
-                        <time class="published" datetime="{{ post.published_date }}">{{ post.published_date }}</time>
-                        <!--<a href="#" class="author"><span class="name">Jane Doe</span><img src="images/avatar.jpg"
-                                                                                          alt=""/></a>-->
+                        <time class="published" datetime="{{ val.post.published_date }}">{{ val.post.published_date }}</time>
+                        <a href="#" class="author"><span class="name">{{ val.user }}</span><img src="media/{{ val.user.avatar }}"
+                                                                                          alt=""/></a>
                     </div>
                 </header>
-                <a href="{% url 'post_detail' pk=post.pk %}" class="image featured">
-                    <img src="media/{{ post.photo }}" alt="img">
+                <a href="{% url 'post_detail' pk=val.post.pk %}" class="image featured">
+                    <img src="media/{{ val.post.photo }}" alt="img">
                 </a>
-                <p>{{ post.text|linebreaksbr|truncatechars:200 }}</p>
+                <p>{{ val.post.text|linebreaksbr|truncatechars:200 }}</p>
                 <footer>
                     <ul class="actions">
-                        <li><a href="{% url 'post_detail' pk=post.pk %}" class="button big">Continue Reading</a></li>
+                        <li><a href="{% url 'post_detail' pk=val.post.pk %}" class="button big">Continue Reading</a></li>
                     </ul>
                     <!--<ul class="stats">
                         <li><a href="#">General</a></li>
@@ -32,11 +32,9 @@
                 </footer>
             </article>
         {% endfor %}
-
         {% include 'common/pagination.html' %}
 
     </div>
-
     {% include 'common/sidebar.html' %}
 
 {% endblock %}

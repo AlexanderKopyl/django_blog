@@ -13,18 +13,18 @@
 
     <!-- Mini Posts -->
     <section>
-        {% for post in posts %}
+        {% for item, val in data.items %}
             <div class="mini-posts">
 
                 <!-- Mini Post -->
                 <article class="mini-post">
                     <header>
-                        <h3><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
-                        <time class="published" datetime="{{ post.published_date }}">{{ post.published_date }}</time>
-<!--                        <a href="#" class="author"><img src="images/avatar.jpg" alt=""/></a>-->
+                        <h3><a href="{% url 'post_detail' pk=val.post.pk %}">{{ val.post.title }}</a></h3>
+                        <time class="published" datetime="{{ val.post.published_date }}">{{ val.post.published_date }}</time>
+                   <a href="#" class="author"><img src="media/{{ val.user.avatar }}" alt=""/></a>
                     </header>
-                    <a href="{% url 'post_detail' pk=post.pk %}">
-                        <img src="media/{{ post.photo }}" alt="img">
+                    <a href="{% url 'post_detail' pk=val.post.pk %}">
+                        <img src="media/{{ val.post.photo }}" alt="img">
                     </a>
                 </article>
                 <!--<p>{{ post.text|linebreaksbr|truncatechars:200 }}</p>-->
@@ -36,15 +36,15 @@
     <!-- Posts List -->
     <section>
         <ul class="posts">
-            {% for post in posts %}
+            {% for item, val in data.items %}
                 <li>
                     <article>
                         <header>
-                            <h3><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
-                            <time class="published" datetime="{{ post.published_date }}">{{ post.published_date }}</time>
+                            <h3><a href="{% url 'post_detail' pk=val.post.pk %}">{{ val.post.title }}</a></h3>
+                            <time class="published" datetime="{{ val.post.published_date }}">{{ val.post.published_date }}</time>
                         </header>
-                        <a href="{% url 'post_detail' pk=post.pk %}" class="image">
-                            <img src="media/{{ post.photo }}" alt="img">
+                        <a href="{% url 'post_detail' pk=val.post.pk %}" class="image">
+                            <img src="media/{{ val.post.photo }}" alt="img">
                         </a>
                     </article>
                 </li>

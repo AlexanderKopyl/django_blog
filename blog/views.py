@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.shortcuts import redirect
 from .forms import PostForm
-from .models import Post
+from .models import Post, UserProfile
 
 from rest_framework import viewsets
 from .serializers import PostSerializer
@@ -15,7 +15,17 @@ class PostView(viewsets.ModelViewSet):
 
 def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-    return render(request, 'blog/post_list.html', {'posts': posts})
+    data = {}
+    for post in posts:
+        try:
+            data[post.pk] = {
+                'user': UserProfile.objects.get(id=post.author_id),
+                'post': post
+            }
+        except Exception as e:
+            print(e.__str__)
+
+    return render(request, 'blog/post_list.html', {'data': data})
 
 
 def post_detail(request, pk):
@@ -27,7 +37,6 @@ def post_new(request):
     if request.method == "POST":
 
         form = PostForm(request.POST, request.FILES)
-        print(request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
@@ -59,5 +68,15 @@ def post_edit(request, pk):
 
 
 def sidebar(request):
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')[:3]
-    return render(request, 'common/sidebar.html', {'posts': posts})
+    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+    data = {}
+    for post in posts:
+        try:
+            data[post.pk] = {
+                'user': UserProfile.objects.get(id=post.author_id),
+                'post': post
+            }
+        except Exception as e:
+            print(e.__str__)
+
+    return render(request, 'common/sidebar.html', {'data': data})
